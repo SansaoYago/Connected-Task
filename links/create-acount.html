@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="../css/cadastro.css">
+    <style>
+        small {
+            font-size: 0.6em;
+            color: rgba(0, 0, 0, 0.448);
+        }
+
+        .area {
+            cursor: grabbing;
+        }
+
+        .aside {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 250px;
+            height: 250px;
+            position: absolute;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.637);
+
+            border-radius: 12px;
+            box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.545);
+            top: 40%;
+            right: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .aside p {
+            text-align: justify;
+            padding: 5px;
+            font-size: 0.6em;
+            color: white;
+        }
+
+        .aside input::-webkit-outer-spin-button, aside input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #a, input[type=submit], #W-zap {
+            font-size: 0.8em;
+            text-align: center;
+            text-decoration: none;
+            margin: 0.5em;
+            cursor: grabbing;
+            background-color: rgba(0, 128, 126, 0.396);
+            color: rgba(255, 255, 255, 0.822);
+            padding: 2px 3px;
+            border: 1px solid #7fffd4;
+            border-radius: 4px;
+        }
+
+        #a:hover, input[type=submit]:hover, #W-zap:hover {
+            transition: 375ms;
+            color: white;
+            border: 1px solid #7fffd4;
+            box-shadow: inset 0px 0px 10px 1px #7fffd4;
+        }
+
+        .fundo_on {
+            filter: blur(6px);
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="contain">
+        <main class="cursor">
+           <h1>Cadastro</h1> 
+           <form method="post"><!-- posteriormente definir required -->
+                <label for="nome">
+                    <i class="cursor">NOME</i>
+                    <input type="text" name="nome" id="nome" autocomplete="off" required  minlength="10" maxlength="35" placeholder="Nome completo!" >
+                </label>
+                <label for="email">
+                    <i class="cursor">E-mail</i>
+                    <input type="email" name="email" id="email" autocomplete="off" required  minlength="12" maxlength="30" placeholder="Maria@exemplo!..." >
+                </label>
+                <label for="passwd">
+                    <i class="cursor">Senha</i>
+                    <input type="password" name="passwd" id="passwd" autocomplete="off" required  minlength="8" placeholder="********" >
+                </label>
+                <label for="conf_passwd">
+                    <i class="cursor">Confirme a senha</i>
+                    <input type="password" name="conf_passwd" id="conf_passwd" autocomplete="off" required  minlength="8" placeholder="********" >
+                </label>
+                <label for="phone">
+                    <i class="cursor">Whatsapp</i>
+                    <small>Format: (DDD)90000-0000</small>
+                    <span style="display: block;"><input type="tel" name="phone" id="phone" autocomplete="off" required value="+55011" minlength="11" maxlength="15" placeholder="(011)91234-5678"></span>
+                    <small>Obs: Número de Contato é requisitado para recuperação de senha!</small>
+                </label>
+                <div class="area">
+                    <button type="submit" id="btn">Cadastrar</button>
+                </div>
+           </form>
+           <div class="back"><a class="cursor" href="../index.html">Voltar</a></div>
+        </main>
+        <aside>
+            <form class="aside">
+                <p>Vamos finalizar seu cadastro, agora confirme o código que lhe enviamos no seu Whatsapp</p>
+                <input style="text-align: center;" type="number" name="validacao" id="validacao" required maxlength="4">
+                <input type="submit" value="Enviar">
+                <a id="W-zap" href="" target="_blank" rel="Next">Verificar Whatsapp</a>
+                <a href="create-acount.html" id="a">Cancelar</a>
+            </form>
+        </aside>
+    </div>
+</body>
+<script>
+
+    //https://wa.me/+55011966735579/?text=Olá, Cristian!
+
+    /* Declaração da Variável form, que vai receber um agente de ouvintes*/
+    const frm = document.querySelector('form')
+    const aside = document.querySelector('.aside')
+    const fundo = document.querySelector('main')
+    const w_zap = document.querySelector('#W-zap')
+    
+    
+    frm.addEventListener("submit", (e) => {
+        e.preventDefault()//Evita o envio do form
+
+        /*Declaração de Variáveis Globais com entrada de dados*/
+        const nome = frm.nome.value
+        const email = frm.email.value
+        const passwd = frm.passwd.value
+        const conf_passwd = frm.conf_passwd.value
+        const contact = frm.phone.value
+        let num
+        let codigo = ""
+
+        for (let i = 1; i <= 6; i++) {
+            num = Math.floor(Math.random() * 3 + 1)
+            codigo += num
+            
+        }
+        /*Enquanto inputs estiverem vazios, exiba alert*/
+
+
+        while(nome.length === 0 || email.length === 0 || passwd.length === 0 || conf_passwd.length === 0 || contact.length < 15) {
+            alert("Informe dados que sejam válidos!")
+            break
+        }
+
+
+        if(nome.length >= 10 && email.length >= 16 && passwd.length >= 8 && conf_passwd.length >= 8 && contact.length >= 15) {    
+            fundo.classList.toggle('fundo_on')
+            aside.style.display = 'flex'           
+            w_zap.href = "https://wa.me/"+contact+"/?text=Seu código é "+codigo
+            
+            //Aqui vai ter o script que vai gerar o código que será enviado
+            /*
+            window.location.href = "https://wa.me/"+contact+"/?text=Seu código é "+num
+            */
+        }
+
+        aside.addEventListener("submit", (e) => {
+            e.preventDefault()
+            
+            const validacao = aside.validacao.value
+            if(validacao === codigo) {
+                window.location.href = "../index.html"
+                alert("Cadastro realizado com sucesso!!")
+            } else {
+                alert("Código inválido, certifique se de que o número informado esta correto!!")
+            }
+        })
+         
+    })
+
+    
+
+</script>
+</html>
