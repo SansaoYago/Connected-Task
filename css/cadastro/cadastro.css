@@ -1,9 +1,6 @@
 @charset "UTF-8";
 
 * {
-    padding: 0px;
-    margin-top: 0px;
-    box-sizing: border-box;
     font: normal 500 18pt 'Courier New';
 }
 

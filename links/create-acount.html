@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-    <link rel="stylesheet" href="../css/cadastro.css">
+    <link rel="stylesheet" href="../css/all/all.css">
+    <link rel="stylesheet" href="../css/cadastro/cadastro.css">
 
     <style>
         small {
@@ -75,7 +76,7 @@
     <div id="contain">
         <main class="cursor">
            <h1>Cadastro</h1> 
-           <form method="post"><!-- posteriormente definir required -->
+           <form method="post">
                 <label for="nome">
                     <i class="cursor">NOME</i>
                     <input type="text" name="nome" id="nome" autocomplete="off" required  minlength="10" maxlength="35" placeholder="Nome completo!" >
@@ -151,8 +152,9 @@
             break
         }
 
-
-        if(nome.length >= 10 && email.length >= 16 && passwd.length >= 8 && conf_passwd.length >= 8 && contact.length >= 15) {    
+        if (passwd != conf_passwd) {
+            alert("As senhas não conferem")
+        } else if(nome.length >= 10 && email.length >= 16 && passwd.length >= 8 && conf_passwd.length >= 8 && contact.length >= 15) {    
             fundo.classList.toggle('fundo_on')
             aside.style.display = 'flex'           
             w_zap.href = "https://wa.me/"+contact+"/?text=Seu código é "+codigo
@@ -166,8 +168,8 @@
         aside.addEventListener("submit", (e) => {
             e.preventDefault()
             
-            const validacao = aside.validacao.value
-            if(validacao === codigo) {
+            const valid = aside.validacao.value
+            if(valid === codigo) {
                 window.location.href = "../index.html"
                 alert("Cadastro realizado com sucesso!!")
             } else {
